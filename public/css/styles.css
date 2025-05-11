@@ -1,6 +1,140 @@
 /******* Change Box Model ***************/
-*,
+/* *,
 *:before,
 *:after {
   box-sizing: border-box;
+} */
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat";
+}
+
+body{
+  height: 100vh;
+}
+
+header{
+  display: flex;
+  padding: 10px;
+  justify-content: space-around;
+}
+
+.siteName{
+  flex: 2;
+  font-size: xx-large;
+  font-weight: 600;
+  color: #36454F;
+}
+
+#tools{
+  flex: 1;
+  align-content: center;
+}
+
+.siteName a, #tools a{
+  color:#36454F;;
+}
+
+a{
+  text-decoration: none;
+  color: azure;
+}
+
+nav ul{
+  display: flex;
+  list-style-type: none;
+  justify-content: space-between;
+}
+
+nav ul li{
+  color: azure;
+}
+
+nav{
+  padding: 10px;
+  background-color: #36454F;
+}
+
+h2{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 10px 10px 10px 0;
+  font-size: large;
+}
+
+.hero img{
+  width: 100%;
+}
+
+.hero-text{
+  position: absolute;
+  top: 150px;
+  left: 5px;
+  color: #1DA1F2;
+  background-color: rgba(255, 255, 255, 0.34);
+}
+
+.hero-text button{
+  background-image: url("../images/site/own_today.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  height: 40px;
+  border: none;
+  height: 40px;
+  width: 110px;
+  color: rgba(255, 255, 255, 0); /* optional text color */
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.mid, .upgrade-grid{
+  margin-top: 30px;
+}
+
+.specs{
+  list-style-type: disc !important;
+  line-height: 2em;
+  font-size: small;
+  padding-left: 20px;
+}
+
+li::marker{
+  font-size: 15px;
+}
+
+.upgrades{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 5px;
+  gap: 10px;
+}
+
+
+.card-container>div{
+  display: flex;
+  justify-content: center;
+  background-color: #1DA1F2;
+  height: 80px;
+  padding: 10px;
+}
+
+.card-container a{
+  color: blue;
+  text-decoration: underline;
+  font-size: small;
+}
+
+.card-container{
+  text-align: center;
+}
+
+footer{
+  font-size: small;
+  padding: 10px;
 }
