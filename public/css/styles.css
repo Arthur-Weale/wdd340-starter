@@ -250,3 +250,97 @@ footer{
     padding: 20px;
   }
 }
+
+/* New styles */
+
+.vehicle-detail {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: start;
+}
+
+.vehicle-detail img {
+  max-width: 100%;
+  width: 400px;
+}
+
+.vehicle-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+
+/* Container becomes a responsive grid */
+#inv-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* Each card */
+#inv-display li {
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform .2s, box-shadow .2s;
+}
+
+#inv-display li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Image at top */
+#inv-display li img {
+  width: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Card content */
+#inv-display li .namePrice {
+  padding: 1rem;
+  flex: 1;               /* stretch to fill */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#inv-display li .namePrice h2 {
+  margin: 0 0 .5rem;
+  font-size: 1.1rem;
+}
+
+#inv-display li .namePrice span {
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 1rem;
+}
+
+/* Make “View details” links easy to click */
+#inv-display li .namePrice a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+.error-trigger {
+  color: blue;        /* Default link blue color */
+  text-decoration: underline;  /* Underline */
+  cursor: pointer;    /* Pointer cursor on hover */
+  background: transparent; /* Ensure no background color */
+}
+
+/* Optional: change color on hover for better UX */
+.error-trigger:hover,
+.error-trigger:focus {
+  color: darkblue;
+  text-decoration: none;
+}
