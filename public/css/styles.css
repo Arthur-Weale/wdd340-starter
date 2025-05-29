@@ -344,3 +344,156 @@ footer{
   color: darkblue;
   text-decoration: none;
 }
+
+/* Auth Form */
+.auth-form {
+  max-width: 400px;
+  margin: 1rem auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.auth-form label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.auth-form button {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  width: 100%;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auth-form button:hover {
+  background-color: #005fa3;
+}
+
+.flash-message {
+  color: red;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.register-link a{
+  color: blue;
+}
+
+/* Register form */
+/* Form Container */
+#registerForm {
+  max-width: 400px;
+  margin: 1rem auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Headline alignment */
+h1 {
+  text-align: center;
+}
+
+/* Flash message */
+.flash-message {
+  color: red;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+/* Form labels */
+#registerForm label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+/* Form inputs */
+#registerForm input[type="text"],
+#registerForm input[type="email"],
+#registerForm input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Password toggle wrapper */
+.password-toggle-wrapper {
+  position: relative;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.password-toggle-wrapper input[type="password"],
+.password-toggle-wrapper input[type="text"] {
+  flex: 1;
+}
+
+.password-toggle-wrapper button {
+  padding: 0.5rem;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Submit button */
+#registerForm button[type="submit"] {
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  width: 100%;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#registerForm button[type="submit"]:hover {
+  background-color: #005fa3;
+}
+
+/* Login link */
+p {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-link a{
+  color: blue;
+}
+
+/* Validation Error */
+.error-box {
+  background-color: #ffe0e0;
+  border: 1px solid #cc0000;
+  color: #cc0000;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
