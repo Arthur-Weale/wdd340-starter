@@ -1,6 +1,6 @@
 const utilities = require("../utilities")
 const accountModel = require("../models/account-model")
-
+const bcrypt = require("bcryptjs")
 
 
 /* ****************************************
@@ -42,11 +42,29 @@ async function registerAccount(req, res) {
   let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_password } = req.body
 
+  // Hash the password before storing
+  let hashedPassword
+  try {
+    hashedPassword = await bcrypt.hash(account_password, 10)
+  } catch (error) {
+    req.flash("notice", 'Sorry, there was an error processing the registration.')
+    return res.status(500).render("account/register", {
+      title: "Register",
+      nav,
+      notice: req.flash("notice"),
+      errors: null,
+      account_firstname,
+      account_lastname,
+      account_email,
+    })
+  }
+
+  // Save user to DB with hashed password
   const regResult = await accountModel.registerAccount(
     account_firstname,
     account_lastname,
     account_email,
-    account_password
+    hashedPassword
   )
 
   if (regResult?.rows?.length > 0) {
@@ -54,7 +72,7 @@ async function registerAccount(req, res) {
       "notice",
       `Congratulations, you’re registered ${account_firstname}. Please log in.`
     )
-    res.redirect("/account/login") // better UX and uses flash message
+    res.redirect("/account/login")
   } else {
     req.flash("notice", "Sorry, the registration failed.")
     res.status(501).render("account/register", {
@@ -68,7 +86,6 @@ async function registerAccount(req, res) {
     })
   }
 }
-
 
 module.exports = {
   buildLogin,
