@@ -1,0 +1,14 @@
+<%- include('../partials/head', { title: title }) %>
+<body>
+
+  <main class="container">
+    <h1><%= title %></h1>
+    <% if (message && message.length) { %>
+      <div class="flash-message"><%= message %></div>
+    <% } %>
+    <ul class="manage-links">
+      <li><a href="/inv/add-classification">Add New Classification</a></li>
+      <li><a href="/inv/add-inventory">Add New Vehicle</a></li>
+    </ul>
+  </main>
+</body>

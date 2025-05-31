@@ -1,0 +1,146 @@
+<%- include('../partials/head', { title: title }) %>
+
+<body>
+  <main class="container">
+    <h1><%= title %></h1>
+
+    <% if (Array.isArray(errors) && errors.length > 0) { %>
+      <div class="error-summary">
+        <p>Please fix the following errors:</p>
+        <ul>
+          <% errors.forEach(error => { %>
+            <li><%= error.msg %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+    <% const getFieldError = (field) => {
+      const err = errors.find(e => e.param === field);
+      return err ? err.msg : null;
+    }; %>
+
+    <form id="addInventory" action="/inv/add-inventory" method="post" novalidate>
+      <label for="classificationList">Classification</label>
+      <%- classificationList %>
+      <% const classErr = getFieldError('classification_id'); if (classErr) { %>
+        <span class="error-message"><%= classErr %></span>
+      <% } %>
+
+      <label for="invMake">Make<span class="instruction">(min 2 chars)</span></label>
+      <input
+        type="text"
+        name="inv_make"
+        id="invMake"
+        required
+        value="<%= inv_make || '' %>"
+      >
+      <% const makeErr = getFieldError('inv_make'); if (makeErr) { %>
+        <span class="error-message"><%= makeErr %></span>
+      <% } %>
+
+      <label for="invModel">Model<span class="instruction">(min 1 char)</span></label>
+      <input
+        type="text"
+        name="inv_model"
+        id="invModel"
+        required
+        value="<%= inv_model || '' %>"
+      >
+      <% const modelErr = getFieldError('inv_model'); if (modelErr) { %>
+        <span class="error-message"><%= modelErr %></span>
+      <% } %>
+
+      <label for="invYear">Year<span class="instruction">(1900–<%= new Date().getFullYear() %>)</span></label>
+      <input
+        type="number"
+        name="inv_year"
+        id="invYear"
+        required
+        min="1900"
+        max="<%= new Date().getFullYear() %>"
+        value="<%= inv_year || '' %>"
+      >
+      <% const yearErr = getFieldError('inv_year'); if (yearErr) { %>
+        <span class="error-message"><%= yearErr %></span>
+      <% } %>
+
+      <label for="invPrice">Price<span class="instruction">(numeric)</span></label>
+      <input
+        type="number"
+        name="inv_price"
+        id="invPrice"
+        required
+        step="0.01"
+        min="0"
+        value="<%= inv_price || '' %>"
+      >
+      <% const priceErr = getFieldError('inv_price'); if (priceErr) { %>
+        <span class="error-message"><%= priceErr %></span>
+      <% } %>
+
+      <label for="invMiles">Miles<span class="instruction">(integer)</span></label>
+      <input
+        type="number"
+        name="inv_miles"
+        id="invMiles"
+        required
+        min="0"
+        value="<%= inv_miles || '' %>"
+      >
+      <% const milesErr = getFieldError('inv_miles'); if (milesErr) { %>
+        <span class="error-message"><%= milesErr %></span>
+      <% } %>
+
+      <label for="invColor">Color</label>
+      <input
+        type="text"
+        name="inv_color"
+        id="invColor"
+        required
+        value="<%= inv_color || '' %>"
+      >
+      <% const colorErr = getFieldError('inv_color'); if (colorErr) { %>
+        <span class="error-message"><%= colorErr %></span>
+      <% } %>
+
+      <label for="invImage">Image Path</label>
+      <input
+        type="text"
+        name="inv_image"
+        id="invImage"
+        required
+        value="<%= inv_image || '' %>"
+      >
+      <% const imgErr = getFieldError('inv_image'); if (imgErr) { %>
+        <span class="error-message"><%= imgErr %></span>
+      <% } %>
+
+      <label for="invThumbnail">Thumbnail Path</label>
+      <input
+        type="text"
+        name="inv_thumbnail"
+        id="invThumbnail"
+        required
+        value="<%= inv_thumbnail || '' %>"
+      >
+      <% const thumbErr = getFieldError('inv_thumbnail'); if (thumbErr) { %>
+        <span class="error-message"><%= thumbErr %></span>
+      <% } %>
+
+      <label for="invDescription">Description</label>
+      <textarea
+        name="inv_description"
+        id="invDescription"
+        required
+      ><%= inv_description || '' %></textarea>
+      <% const descErr = getFieldError('inv_description'); if (descErr) { %>
+        <span class="error-message"><%= descErr %></span>
+      <% } %>
+
+      <button type="submit">Add Vehicle</button>
+    </form>
+  </main>
+
+  <script src="/js/form-validation.js"></script>
+</body>

@@ -1,18 +1,48 @@
-const express = require('express')
-const router = express.Router()
-const invController = require('../controllers/invController')
+// routes/inventoryRoute.js
+const express = require("express");
+const router = express.Router();
+const invController = require("../controllers/invController");
+const invValidate = require("../utilities/inventory-validation");
+const utilities = require("../utilities");
 
 // Route to build inventory by classification view
-router.get('/type/:classificationId', invController.buildByClassificationId)
+router.get("/type/:classificationId", invController.buildByClassificationId);
 router.get("/detail/:invId", invController.buildByInvId);
 
+// Trigger‐error route (for testing)
 router.get("/trigger-error", (req, res, next) => {
-    try {
-        throw new Error("This is an intentional error for testing.");
-    } catch (error) {
-        next(error);
-    }
-    });
+  try {
+    throw new Error("This is an intentional error for testing.");
+  } catch (error) {
+    next(error);
+  }
+});
 
+// Management view
+router.get("/", utilities.handleErrors(invController.buildManagement));
+
+// Add classification
+router.get(
+  "/add-classification",
+  utilities.handleErrors(invController.buildAddClassification)
+);
+router.post(
+  "/add-classification",
+  invValidate.classificationRules(),
+  invValidate.checkClassification,
+  utilities.handleErrors(invController.addClassification)
+);
+
+// Add inventory
+router.get(
+  "/add-inventory",
+  utilities.handleErrors(invController.buildAddInventory)
+);
+router.post(
+  "/add-inventory",
+  invValidate.inventoryRules(),
+  invValidate.checkInventory,
+  utilities.handleErrors(invController.addInventoryItem)
+);
 
 module.exports = router;
