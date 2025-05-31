@@ -344,7 +344,6 @@ footer{
   color: darkblue;
   text-decoration: none;
 }
-
 /* Auth Form */
 .auth-form {
   max-width: 400px;
@@ -373,15 +372,16 @@ footer{
   margin-top: 1.5rem;
   padding: 0.75rem;
   width: 100%;
-  background-color: #0077cc;
+  background-color: #003366;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .auth-form button:hover {
-  background-color: #005fa3;
+  background-color: #004080;
 }
 
 .flash-message {
@@ -395,7 +395,7 @@ footer{
   margin-top: 1rem;
 }
 
-.register-link a{
+.register-link a {
   color: blue;
 }
 
@@ -467,15 +467,16 @@ h1 {
   margin-top: 1.5rem;
   padding: 0.75rem;
   width: 100%;
-  background-color: #0077cc;
+  background-color: #003366;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 600;
 }
 
 #registerForm button[type="submit"]:hover {
-  background-color: #005fa3;
+  background-color: #004080;
 }
 
 /* Login link */
@@ -484,7 +485,8 @@ p {
   margin-top: 1rem;
 }
 
-.login-link a, .manage-links li a{
+.login-link a,
+.manage-links li a {
   color: blue;
 }
 
@@ -571,11 +573,11 @@ select.invalid {
   display: block;
 }
 
-/* Submit button */
+/* Submit button - updated for AAA contrast */
 form button {
   width: 100%;
   padding: 0.8rem;
-  background: #007bff;
+  background: #003366;
   color: white;
   font-size: 1rem;
   font-weight: 600;
@@ -586,7 +588,7 @@ form button {
 }
 
 form button:hover {
-  background: #0056b3;
+  background: #004080;
 }
 
 /* =====================================
@@ -600,6 +602,7 @@ form button:hover {
   border-radius: 4px;
   color: #cc0000;
 }
+
 .error-summary ul {
   margin: 0;
   padding-left: 1.25rem;
@@ -626,11 +629,14 @@ select.invalid {
   background-color: #fff0f0 !important;
 }
 
-
-input.valid, textarea.valid, select.valid {
+input.valid,
+textarea.valid,
+select.valid {
   border-color: green;
 }
 
-input.invalid, textarea.invalid, select.invalid {
+input.invalid,
+textarea.invalid,
+select.invalid {
   border-color: red;
 }
