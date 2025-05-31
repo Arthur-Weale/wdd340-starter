@@ -589,12 +589,48 @@ form button:hover {
   background: #0056b3;
 }
 
-
+/* =====================================
+   Error summary box at the top of the form
+   ===================================== */
 .error-summary {
-  background-color: #ffe0e0;
   border: 1px solid #cc0000;
-  padding: 1em;
-  margin-bottom: 1.5em;
+  background-color: #ffe6e6;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
   color: #cc0000;
-  border-radius: 5px;
+}
+.error-summary ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+/* =====================================
+   Field-level error messages
+   ===================================== */
+.error-message {
+  color: #cc0000;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* =====================================
+   (Optional) Visually highlight invalid inputs
+   ===================================== */
+input.invalid,
+textarea.invalid,
+select.invalid {
+  border-color: #cc0000 !important;
+  background-color: #fff0f0 !important;
+}
+
+
+input.valid, textarea.valid, select.valid {
+  border-color: green;
+}
+
+input.invalid, textarea.invalid, select.invalid {
+  border-color: red;
 }

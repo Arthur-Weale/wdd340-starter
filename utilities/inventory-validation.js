@@ -73,6 +73,11 @@ validate.inventoryRules = () => [
     .trim()
     .notEmpty()
     .withMessage("Thumbnail path is required."),
+
+  body("inv_description")
+    .trim()
+    .notEmpty()
+    .withMessage("Description is required."),
 ];
 
 /* **********************************
@@ -85,7 +90,7 @@ validate.checkClassification = async (req, res, next) => {
     return res.status(400).render("inventory/add-classification", {
       title: "Add Classification",
       nav,
-      errors: errors.array(),
+      errors: errors.array().map(err => ({ param: err.param, msg: err.msg })),
       classification_name: req.body.classification_name,
     });
   }
@@ -95,18 +100,24 @@ validate.checkClassification = async (req, res, next) => {
 /* **********************************
  *  Handle Validation Errors for Inventory
  * ********************************* */
+// utilities/inventory-validation.js
 validate.checkInventory = async (req, res, next) => {
   const errors = validationResult(req);
+
   if (!errors.isEmpty()) {
+    console.log("⚠️  Validation errors in checkInventory:", errors.array());
     const nav = await utilities.getNav();
     const classificationList = await utilities.buildClassificationList(
       req.body.classification_id
     );
+    
+    // Return the same view with error messages
     return res.status(400).render("inventory/add-inventory", {
       title: "Add Vehicle",
       nav,
       classificationList,
-      errors: errors.array(), // array of { param, msg }
+      errors: errors.array(),  // Pass errors directly
+      // Pass form data back to repopulate fields
       inv_make: req.body.inv_make,
       inv_model: req.body.inv_model,
       inv_year: req.body.inv_year,

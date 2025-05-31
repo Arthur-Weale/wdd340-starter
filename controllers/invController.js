@@ -1,7 +1,7 @@
 // controllers/invController.js
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities/");
-const { validationResult } = require("express-validator"); // <— import this
+const { validationResult } = require("express-validator"); // <— IMPORTANT
 
 const invCont = {};
 
@@ -61,7 +61,7 @@ invCont.buildAddClassification = async function (req, res) {
   res.render("inventory/add-classification", {
     title: "Add Classification",
     nav,
-    errors: [], // send an empty array initially
+    errors: [], // Always an array (initially empty)
     classification_name: null,
   });
 };
@@ -94,10 +94,11 @@ invCont.addClassification = async function (req, res) {
 invCont.buildAddInventory = async function (req, res) {
   const nav = await utilities.getNav();
   const classificationList = await utilities.buildClassificationList();
+  
   res.render("inventory/add-inventory", {
     title: "Add Vehicle",
     nav,
-    errors: [], // always send empty array initially
+    errors: null, // Use null instead of empty array
     classificationList,
     inv_make: null,
     inv_model: null,
@@ -116,10 +117,10 @@ invCont.buildAddInventory = async function (req, res) {
  *  Process Add Inventory
  * ********************************* */
 invCont.addInventoryItem = async function (req, res) {
-  // (1) Express-validator has already run.
-  // If there were any validation errors, checkInventory() would have re-rendered the form.
+  // By the time we get here, checkInventory() has already run.
+  // If there were any validation errors, checkInventory() would have re‐rendered the form.
 
-  // (2) No validation errors → insert into database
+  // No validation errors → insert into database:
   const result = await invModel.addInventoryItem(req.body);
   if (result && result.rowCount > 0) {
     req.flash(
@@ -129,7 +130,7 @@ invCont.addInventoryItem = async function (req, res) {
     return res.redirect("/inv");
   }
 
-  // If database insertion failed for some other reason
+  // If DB insertion failed:
   req.flash("message", "Failed to add vehicle.");
   const nav = await utilities.getNav();
   res.render("inventory/manage", {

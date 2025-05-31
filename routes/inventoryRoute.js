@@ -5,8 +5,10 @@ const invController = require("../controllers/invController");
 const invValidate = require("../utilities/inventory-validation");
 const utilities = require("../utilities");
 
-// Route to build inventory by classification view
+// Route to display inventory by classification
 router.get("/type/:classificationId", invController.buildByClassificationId);
+
+// Route to display vehicle detail
 router.get("/detail/:invId", invController.buildByInvId);
 
 // Trigger‐error route (for testing)
@@ -21,7 +23,7 @@ router.get("/trigger-error", (req, res, next) => {
 // Management view
 router.get("/", utilities.handleErrors(invController.buildManagement));
 
-// Add classification
+// Add Classification (GET + POST)
 router.get(
   "/add-classification",
   utilities.handleErrors(invController.buildAddClassification)
@@ -33,7 +35,7 @@ router.post(
   utilities.handleErrors(invController.addClassification)
 );
 
-// Add inventory
+// Add Inventory (GET + POST)
 router.get(
   "/add-inventory",
   utilities.handleErrors(invController.buildAddInventory)

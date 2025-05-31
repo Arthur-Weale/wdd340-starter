@@ -20,6 +20,8 @@ const session = require("express-session");
 const pool = require("./database/");
 const accountRoute = require("./routes/accountRoute");
 
+// Body‐parser is no longer needed separately—express.json() and express.urlencoded() suffice
+
 /* ***********************
  * Middleware
  *************************/
@@ -36,14 +38,14 @@ app.use(
   })
 );
 
-// Express Messages Middleware
+// Express‐message (flash) middleware
 app.use(require("connect-flash")());
 app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res);
   next();
 });
 
-// Body parsing (JSON & URL-encoded)
+// Body parsing (JSON & URL‐encoded)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -52,20 +54,18 @@ app.use(express.urlencoded({ extended: true }));
  *************************/
 app.set("view engine", "ejs");
 app.use(expressLayouts);
-app.set("layout", "./layouts/layout"); // Layout file in /views/layouts/layout.ejs
+app.set("layout", "./layouts/layout"); // layout file in /views/layouts/layout.ejs
 
 /* ***********************
  * Routes
  *************************/
-app.use(staticRoutes); // Static files (e.g. serving /public)
+app.use(staticRoutes); // Static files (e.g. /public)
 
 app.get("/", utilities.handleErrors(baseController.buildHome));
 
-// Inventory routes (only once!)
-app.use("/inv", inventoryRoute);
+app.use("/inv", inventoryRoute); // Inventory routes (only once!)
 
-// Account routes
-app.use("/account", accountRoute);
+app.use("/account", accountRoute); // Account routes
 
 /* ***********************
  * 404 Handler (File Not Found)
@@ -88,7 +88,7 @@ app.use(async (err, req, res, next) => {
       : "Oh no! There was a crash. Maybe try a different route?";
 
   res.status(err.status || 500).render("errors/error", {
-    title: err.status || "505 Server Error",
+    title: err.status || "500 Server Error",
     message,
     nav,
   });
