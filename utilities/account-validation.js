@@ -87,18 +87,33 @@ const loginRules = () => {
   ]
 }
 
-const checkLoginData = async (req, res, next) => {
-  const { account_email } = req.body
-  let errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    return res.render("account/login", {
-      errors: errors.array(),
-      account_email,
-    })
+// const checkLoginData = async (req, res, next) => {
+//   const { account_email } = req.body
+//   let errors = validationResult(req)
+//   if (!errors.isEmpty()) {
+//     return res.render("account/login", {
+//       errors: errors.array(),
+//       account_email,
+//     })
+//   }
+//   next()
+// }
+// Example for checkLoginData
+  const checkLoginData = async (req, res, next) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      let nav = await utilities.getNav()
+      res.render("account/login", {
+        title: "Login",
+        nav,
+        notice: [], // Explicitly pass empty array
+        errors: errors.array(),
+        account_email: req.body.account_email
+      })
+      return
+    }
+    next()
   }
-  next()
-}
-
 
 module.exports = {
   registrationRules: validate.registrationRules,

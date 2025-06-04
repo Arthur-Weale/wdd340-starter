@@ -19,6 +19,8 @@ const utilities = require("./utilities");
 const session = require("express-session");
 const pool = require("./database/");
 const accountRoute = require("./routes/accountRoute");
+const cookieParser = require("cookie-parser")
+
 
 // Body‐parser is no longer needed separately—express.json() and express.urlencoded() suffice
 
@@ -37,6 +39,9 @@ app.use(
     name: "sessionId",
   })
 );
+
+app.use(cookieParser())
+
 
 // Express‐message (flash) middleware
 app.use(require("connect-flash")());
