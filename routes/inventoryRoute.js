@@ -4,12 +4,29 @@ const router = express.Router();
 const invController = require("../controllers/invController");
 const invValidate = require("../utilities/inventory-validation");
 const utilities = require("../utilities");
+const invCont = require("../controllers/invController");
+const invValidation = require("../utilities/inventory-validation");
+
+
 
 // Route to display inventory by classification
 router.get("/type/:classificationId", invController.buildByClassificationId);
 
 // Route to display vehicle detail
 router.get("/detail/:invId", invController.buildByInvId);
+
+// Route to show the edit inventory view by inventory id
+router.get('/edit/:inv_id', invCont.editInventoryView, (error, req, res, next) => {
+  console.error(error);
+  res.status(500).render('errors/500');
+});
+
+router.post("/update", invValidation.inventoryRules(), invValidation.checkUpdateData, invController.updateInventory);
+
+router.get("/delete/:inv_id", invController.buildDeleteView);
+
+router.post("/delete", invController.deleteInventoryItem);
+
 
 // Trigger‐error route (for testing)
 router.get("/trigger-error", (req, res, next) => {
