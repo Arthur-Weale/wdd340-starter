@@ -20,6 +20,8 @@ router.get("/trigger-error", (req, res, next) => {
   }
 });
 
+router.get("/getInventory/:classification_id", invController.getInventoryJSON);
+
 // Management view
 router.get("/", utilities.handleErrors(invController.buildManagement));
 

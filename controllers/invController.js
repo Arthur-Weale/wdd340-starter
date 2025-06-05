@@ -45,11 +45,14 @@ invCont.buildByInvId = async function (req, res, next) {
  * ********************************* */
 invCont.buildManagement = async function (req, res) {
   const nav = await utilities.getNav();
+  const classificationSelect = await utilities.buildClassificationList()
   const message = req.flash("message");
   res.render("inventory/manage", {
     title: "Inventory Management",
     nav,
     message,
+    classificationSelect, 
+    errors: null
   });
 };
 
@@ -139,5 +142,12 @@ invCont.addInventoryItem = async function (req, res) {
     message: req.flash("message"),
   });
 };
+
+invCont.getInventoryJSON = async function (req, res, next) {
+  const classification_id = req.params.classification_id;
+  const inventoryData = await invModel.getInventoryByClassificationId(classification_id);
+  res.json(inventoryData);
+}
+
 
 module.exports = invCont;

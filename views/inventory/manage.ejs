@@ -8,4 +8,18 @@
       <li><a href="/inv/add-classification">Add New Classification</a></li>
       <li><a href="/inv/add-inventory">Add New Vehicle</a></li>
     </ul>
+
+    <h2>Manage Inventory</h2>
+    <p>Choose a classification to see those vehicles</p>
+
+    <!-- Classification dropdown will be injected here -->
+    <%- classificationSelect %>
+
+    <!-- Table to inject inventory data into -->
+    <table id="inventoryDisplay"></table>
+
+    <!-- Message if JavaScript is disabled -->
+    <noscript>JavaScript must be enabled to use this page.</noscript>
+
+
   </div>

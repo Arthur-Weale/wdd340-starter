@@ -640,3 +640,48 @@ textarea.invalid,
 select.invalid {
   border-color: red;
 }
+
+
+/* Table styling */
+#inventoryDisplay {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #333;
+}
+
+#inventoryDisplay thead {
+  background-color: #36454f; /* Bootstrap blue */
+  color: white;
+}
+
+#inventoryDisplay th,
+#inventoryDisplay td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+#inventoryDisplay tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#inventoryDisplay tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Links inside the table */
+#inventoryDisplay a {
+  color: #007BFF; /* Blue color */
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+#inventoryDisplay a:hover,
+#inventoryDisplay a:focus {
+  color: #0056b3; /* Darker blue on hover/focus */
+  text-decoration: underline;
+}
