@@ -42,6 +42,7 @@ app.use(
 
 app.use(cookieParser())
 
+app.use(utilities.checkJWTToken)
 
 // Express‐message (flash) middleware
 app.use(require("connect-flash")());
