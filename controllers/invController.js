@@ -45,14 +45,23 @@ invCont.buildByInvId = async function (req, res, next) {
  * ********************************* */
 invCont.buildManagement = async function (req, res) {
   const nav = await utilities.getNav();
-  const classificationSelect = await utilities.buildClassificationList()
+  const classificationSelect = await utilities.buildClassificationList();
   const message = req.flash("message");
+  
+  // Get account data from locals
+  const accountData = {
+    firstname: res.locals.firstname,
+    account_id: res.locals.account_id,
+    account_type: res.locals.account_type
+  };
+
   res.render("inventory/manage", {
     title: "Inventory Management",
     nav,
     message,
     classificationSelect, 
-    errors: null
+    errors: null,
+    accountData  // Pass accountData to the view
   });
 };
 

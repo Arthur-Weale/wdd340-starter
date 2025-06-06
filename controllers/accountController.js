@@ -138,17 +138,13 @@ async function accountLogin(req, res) {
 }
 }
 
-// Add this function to handle account dashboard
+// Update all controller functions to include nav
 async function buildAccountDashboard(req, res) {
-  let nav = await utilities.getNav()
-  const accountData = await accountModel.getAccountById(res.locals.account_id)
-  
+  let nav = await utilities.getNav();
   res.render("account/dashboard", {
     title: "Account Dashboard",
-    nav,
-    accountData,
-    account_type: res.locals.account_type
-  })
+    nav  //nav here
+  });
 }
 
 async function buildUpdateView(req, res) {
@@ -159,8 +155,11 @@ async function buildUpdateView(req, res) {
   }
   
   const accountData = await accountModel.getAccountById(account_id);
+  let nav = await utilities.getNav();  // Get navigation
+  
   res.render("account/update", {
     title: "Update Account",
+    nav,  // Add nav here
     accountData,
     errors: null,
     message: null

@@ -1,12 +1,18 @@
-<%- include('../../partials/head') %>
+<%- include('../partials/head') %>
 <body>
-  <%- include('../../partials/header') %>
+
   
   <main>
     <h1><%= title %></h1>
-    
-    <% if (typeof errors != 'undefined' && errors.length) { %>
-      <div class="errors">
+
+    <!-- Flash message display -->
+    <% if (message) { %>
+      <div class="flash-message"><%= message %></div>
+    <% } %>
+
+    <!-- Server-side validation error display -->
+    <% if (errors && errors.length > 0) { %>
+      <div class="error-box">
         <ul>
           <% errors.forEach(error => { %>
             <li><%= error.msg %></li>
@@ -14,13 +20,9 @@
         </ul>
       </div>
     <% } %>
-    
-    <% if (message) { %>
-      <div class="message"><%= message %></div>
-    <% } %>
-    
+
     <!-- Account Update Form -->
-    <form action="/account/update" method="POST">
+    <form id="accountUpdateForm" action="/account/update" method="POST">
       <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
       
       <label for="account_firstname">First Name:</label>
@@ -35,21 +37,40 @@
       <input type="email" id="account_email" name="account_email" 
              value="<%= accountData.account_email %>" required>
       
-      <input type="submit" value="Update Account">
+      <button type="submit">Update Account</button>
     </form>
     
     <!-- Change Password Form -->
-    <form action="/account/update-password" method="POST">
+    <form id="passwordUpdateForm" action="/account/update-password" method="POST">
       <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
       
       <label for="account_password">New Password:</label>
-      <input type="password" id="account_password" name="account_password" required>
+      <div class="password-toggle-wrapper">
+        <input type="password" id="account_password" name="account_password" required
+               title="Minimum 12 characters, including a capital letter, number, and special character" 
+               pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
+        <button type="button" onclick="togglePassword('account_password')">Show</button>
+      </div>
       <p>Password must be at least 12 characters with 1 uppercase, 1 lowercase, 1 number, and 1 special character.</p>
       
-      <input type="submit" value="Change Password">
+      <button type="submit">Change Password</button>
     </form>
   </main>
   
-  <%- include('../../partials/footer') %>
+
+
+  <script>
+    function togglePassword(fieldId) {
+      const passwordInput = document.getElementById(fieldId);
+      const toggleBtn = event.target;
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleBtn.textContent = "Hide";
+      } else {
+        passwordInput.type = "password";
+        toggleBtn.textContent = "Show";
+      }
+    }
+  </script>
 </body>
 </html>
