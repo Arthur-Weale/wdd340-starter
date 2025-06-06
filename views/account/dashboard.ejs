@@ -1,12 +1,12 @@
 <%- include('../partials/head') %>
 
-<body>
+<main>
+  <h2>Welcome <%= locals.firstname %></h2>
   
-
-  <main>
-    <h1>Account Dashboard</h1>
-    <p>Welcome to your account!</p>
-  </main>
-
+  <% if (locals.account_type === 'Employee' || locals.account_type === 'Admin') { %>
+    <h3>Inventory Management</h3>
+    <p><a href="/inv/management">Manage Inventory</a></p>
+  <% } %>
   
-</html>
+  <p><a href="/account/update/<%= locals.account_id %>">Update Account Information</a></p>
+</main>

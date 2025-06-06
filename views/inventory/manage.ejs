@@ -1,6 +1,16 @@
 
   <div class="container">
     <h1><%= title %></h1>
+
+    <h2>Welcome <%= accountData.firstname %></h2>
+
+    <a href="/account/update/<%= accountData.account_id %>">Update Account Info</a>
+
+    <% if (accountData.account_type === "Employee" || accountData.account_type === "Admin") { %>
+      <h3>Inventory Management</h3>
+      <p><a href="/inv/management">Go to Inventory Management</a></p>
+    <% } %>
+
     <% if (message && message.length) { %>
       <div class="flash-message"><%= message %></div>
     <% } %>

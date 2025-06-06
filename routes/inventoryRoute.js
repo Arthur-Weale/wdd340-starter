@@ -1,13 +1,17 @@
-// routes/inventoryRoute.js
 const express = require("express");
 const router = express.Router();
 const invController = require("../controllers/invController");
 const invValidate = require("../utilities/inventory-validation");
 const utilities = require("../utilities");
-const invCont = require("../controllers/invController");
-const invValidation = require("../utilities/inventory-validation");
+const { requireAuth, checkAccountType } = require("../utilities/auth");
 
-
+// Management view (protected)
+router.get(
+  "/management", 
+  requireAuth,
+  checkAccountType(['Employee', 'Admin']),
+  invController.buildManagement
+);
 
 // Route to display inventory by classification
 router.get("/type/:classificationId", invController.buildByClassificationId);
@@ -15,18 +19,74 @@ router.get("/type/:classificationId", invController.buildByClassificationId);
 // Route to display vehicle detail
 router.get("/detail/:invId", invController.buildByInvId);
 
-// Route to show the edit inventory view by inventory id
-router.get('/edit/:inv_id', invCont.editInventoryView, (error, req, res, next) => {
-  console.error(error);
-  res.status(500).render('errors/500');
-});
+// Edit Inventory
+router.get(
+  "/edit/:inv_id",
+  requireAuth,
+  checkAccountType(['Employee', 'Admin']),
+  utilities.handleErrors(invController.editInventoryView)
+);
 
-router.post("/update", invValidation.inventoryRules(), invValidation.checkUpdateData, invController.updateInventory);
+router.post(
+  "/update",
+  requireAuth,
+  checkAccountType(['Employee', 'Admin']),
+  invValidate.inventoryRules(),
+  invValidate.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory)
+);
 
-router.get("/delete/:inv_id", invController.buildDeleteView);
+// Delete Inventory
+router.get(
+  "/delete/:inv_id",
+  requireAuth,
+  checkAccountType(['Employee', 'Admin']),
+  utilities.handleErrors(invController.buildDeleteView)
+);
 
-router.post("/delete", invController.deleteInventoryItem);
+router.post(
+  "/delete",
+  requireAuth,
+  checkAccountType(['Employee', 'Admin']),
+  utilities.handleErrors(invController.deleteInventoryItem)
+);
 
+// AJAX endpoint
+router.get("/getInventory/:classification_id", invController.getInventoryJSON);
+
+// Add Classification
+router.get(
+  "/add-classification",
+  requireAuth,
+  checkAccountType(['Employee', 'Admin']),
+  utilities.handleErrors(invController.buildAddClassification)
+);
+
+router.post(
+  "/add-classification",
+  requireAuth,
+  checkAccountType(['Employee', 'Admin']),
+  invValidate.classificationRules(),
+  invValidate.checkClassification,
+  utilities.handleErrors(invController.addClassification)
+);
+
+// Add Inventory
+router.get(
+  "/add-inventory",
+  requireAuth,
+  checkAccountType(['Employee', 'Admin']),
+  utilities.handleErrors(invController.buildAddInventory)
+);
+
+router.post(
+  "/add-inventory",
+  requireAuth,
+  checkAccountType(['Employee', 'Admin']),
+  invValidate.inventoryRules(),
+  invValidate.checkInventory,
+  utilities.handleErrors(invController.addInventoryItem)
+);
 
 // Trigger‐error route (for testing)
 router.get("/trigger-error", (req, res, next) => {
@@ -36,34 +96,5 @@ router.get("/trigger-error", (req, res, next) => {
     next(error);
   }
 });
-
-router.get("/getInventory/:classification_id", invController.getInventoryJSON);
-
-// Management view
-router.get("/", utilities.handleErrors(invController.buildManagement));
-
-// Add Classification (GET + POST)
-router.get(
-  "/add-classification",
-  utilities.handleErrors(invController.buildAddClassification)
-);
-router.post(
-  "/add-classification",
-  invValidate.classificationRules(),
-  invValidate.checkClassification,
-  utilities.handleErrors(invController.addClassification)
-);
-
-// Add Inventory (GET + POST)
-router.get(
-  "/add-inventory",
-  utilities.handleErrors(invController.buildAddInventory)
-);
-router.post(
-  "/add-inventory",
-  invValidate.inventoryRules(),
-  invValidate.checkInventory,
-  utilities.handleErrors(invController.addInventoryItem)
-);
 
 module.exports = router;

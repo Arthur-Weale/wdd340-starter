@@ -138,19 +138,96 @@ async function accountLogin(req, res) {
 }
 }
 
+// Add this function to handle account dashboard
 async function buildAccountDashboard(req, res) {
   let nav = await utilities.getNav()
+  const accountData = await accountModel.getAccountById(res.locals.account_id)
+  
   res.render("account/dashboard", {
     title: "Account Dashboard",
     nav,
+    accountData,
+    account_type: res.locals.account_type
   })
 }
 
+async function buildUpdateView(req, res) {
+  const account_id = parseInt(req.params.account_id);
+  if (account_id !== res.locals.account_id) {
+    req.flash("notice", "Unauthorized access attempt");
+    return res.redirect("/account");
+  }
+  
+  const accountData = await accountModel.getAccountById(account_id);
+  res.render("account/update", {
+    title: "Update Account",
+    accountData,
+    errors: null,
+    message: null
+  });
+}
+
+async function updateAccount(req, res) {
+  const { account_firstname, account_lastname, account_email, account_id } = req.body;
+  
+  const updateResult = await accountModel.updateAccount(
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_id
+  );
+
+  if (updateResult) {
+    // Refresh account data
+    const accountData = await accountModel.getAccountById(account_id);
+    req.flash("notice", "Account updated successfully");
+    res.render("account/dashboard", {
+      title: "Account Dashboard",
+      accountData,
+      nav: await utilities.getNav()
+    });
+  } else {
+    const accountData = await accountModel.getAccountById(account_id);
+    req.flash("notice", "Update failed. Please try again.");
+    res.render("account/update", {
+      title: "Update Account",
+      accountData,
+      errors: null,
+      message: req.flash("notice")
+    });
+  }
+}
+
+async function updatePassword(req, res) {
+  const { account_password, account_id } = req.body;
+  
+  // Hash new password
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(account_password, 10);
+  } catch (error) {
+    req.flash("notice", "Password processing error");
+    return res.redirect(`/account/update/${account_id}`);
+  }
+
+  const updateResult = await accountModel.updatePassword(account_id, hashedPassword);
+
+  if (updateResult) {
+    req.flash("notice", "Password updated successfully");
+    res.redirect("/account");
+  } else {
+    req.flash("notice", "Password update failed");
+    res.redirect(`/account/update/${account_id}`);
+  }
+}
 
 module.exports = {
   buildLogin,
   buildRegister,
   registerAccount, 
   accountLogin,
-  buildAccountDashboard
+  buildAccountDashboard,
+  buildUpdateView,
+  updateAccount,
+  updatePassword,
 }

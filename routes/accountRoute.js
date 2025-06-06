@@ -4,12 +4,40 @@ const utilities = require('../utilities') // Assuming utilities/index.js is corr
 const accountController = require('../controllers/accountController') // You'll build this later
 const regValidate = require("../utilities/account-validation")
 const accountValidation = require('../utilities/account-validation')
+const {requireAuth}  = require('../utilities/auth')
+
+console.log("handleErrors:", utilities.handleErrors)
+
 
 // Route to display login view when "My Account" is clicked
 router.get('/login', utilities.handleErrors(accountController.buildLogin))
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
 //router.get("/", utilities.handleErrors(accountController.buildAccountDashboard))
+// Add new routes
+router.get(
+  "/update/:account_id",
+  requireAuth,
+  utilities.handleErrors(accountController.buildUpdateView)
+);
+
+router.post(
+  "/update",
+  requireAuth,
+  accountValidation.updateAccountRules(),
+  accountValidation.checkUpdateData,
+  utilities.handleErrors(accountController.updateAccount)
+);
+
+router.post(
+  "/update-password",
+  requireAuth,
+  accountValidation.updatePasswordRules(),
+  accountValidation.checkUpdateData,
+  utilities.handleErrors(accountController.updatePassword)
+);
+
+
 
 router.get(
   "/",
@@ -36,4 +64,11 @@ router.post(
   // },
   utilities.handleErrors(accountController.accountLogin)
 )
+
+router.get("/logout", (req, res) => {
+  res.clearCookie("jwt");
+  res.redirect("/");
+});
+
+
 module.exports = router
