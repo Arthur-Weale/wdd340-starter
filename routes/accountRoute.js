@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const utilities = require('../utilities') // Assuming utilities/index.js is correctly set up
-const accountController = require('../controllers/accountController') // You'll build this later
+const utilities = require('../utilities') 
+const accountController = require('../controllers/accountController') // build this later
 const regValidate = require("../utilities/account-validation")
 const accountValidation = require('../utilities/account-validation')
 const {requireAuth}  = require('../utilities/auth')
