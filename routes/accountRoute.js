@@ -65,6 +65,10 @@ router.post(
   utilities.handleErrors(accountController.accountLogin)
 )
 
+
+router.get("/manage-roles", accountController.getManageRoles);
+router.post("/update-role", accountController.postUpdateRole);
+
 router.get("/logout", (req, res) => {
   res.clearCookie("jwt");
   res.redirect("/");

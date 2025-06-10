@@ -92,7 +92,31 @@ async function updatePassword(account_id, hashedPassword) {
   }
 }
 
-module.exports = { 
+// Get all users
+async function getAllUsers() {
+  const sql = 'SELECT account_id, account_firstname, account_lastname, account_email, account_type FROM account';
+  const result = await pool.query(sql);
+  return result.rows;
+}
+
+// Update user role
+async function updateUserRole(accountId, newRole) {
+  const sql = 'UPDATE account SET account_type = $1 WHERE account_id = $2';
+  const result = await pool.query(sql, [newRole, accountId]);
+  return result.rowCount;
+}
+
+// Log role changes
+async function logRoleChange(accountId, previousRole, newRole) {
+  const sql = 'INSERT INTO role_history (account_id, previous_role, new_role) VALUES ($1, $2, $3)';
+  return pool.query(sql, [accountId, previousRole, newRole]);
+}
+
+module.exports = {
+  
+  getAllUsers,
+  updateUserRole,
+  logRoleChange,
     registerAccount,
     checkExistingEmail,
     getAccountByEmail,

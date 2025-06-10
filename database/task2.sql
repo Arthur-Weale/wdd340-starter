@@ -256,3 +256,11 @@ SET
 	inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
 
 
+--Additions
+CREATE TABLE role_history (
+  id SERIAL PRIMARY KEY,
+  account_id INT NOT NULL,
+  previous_role VARCHAR(20),
+  new_role VARCHAR(20),
+  changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

@@ -220,7 +220,41 @@ async function updatePassword(req, res) {
   }
 }
 
+
+
+// ... existing functions ...
+
+async function getManageRoles(req, res) {
+  try {
+    const users = await accountModel.getAllUsers();
+    const nav = await utilities.getNav();
+    res.render("account/manage-roles", {
+      title: "Manage Roles",
+      nav,
+      users
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error loading user roles");
+  }
+}
+
+async function postUpdateRole(req, res) {
+  try {
+    const { account_id, new_role, current_role } = req.body;
+    await accountModel.updateUserRole(account_id, new_role);
+    await accountModel.logRoleChange(account_id, current_role, new_role);
+    res.redirect("/account/manage-roles");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating role");
+  }
+}
+
+
 module.exports = {
+  getManageRoles,
+  postUpdateRole,
   buildLogin,
   buildRegister,
   registerAccount, 
